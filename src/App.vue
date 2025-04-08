@@ -16,11 +16,13 @@
     <main class="main-content">
       <router-view></router-view>
     </main>
+    <FeedbackButton />
   </div>
 </template>
 
 <script setup>
 import { RouterView } from 'vue-router'
+import FeedbackButton from '@/components/FeedbackButton.vue'
 </script>
 
 <style>

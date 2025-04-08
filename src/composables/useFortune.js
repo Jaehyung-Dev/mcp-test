@@ -64,19 +64,7 @@ export function useFortune(tabs) {
     if (fortuneData.value[currentTab.value].hasGenerated) return
     
     isAnimating.value = true
-    let maxNumber = 1000
-    
-    switch(currentTab.value) {
-      case 'week':
-        maxNumber = 2000
-        break
-      case 'month':
-        maxNumber = 3000
-        break
-      case 'year':
-        maxNumber = 5000
-        break
-    }
+    let maxNumber = 100
     
     // 각 카테고리별로 독립적인 운세 생성
     const generateCategoryScore = () => {

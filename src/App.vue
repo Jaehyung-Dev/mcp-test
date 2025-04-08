@@ -1,103 +1,106 @@
 <template>
-  <div class="container">
-    <h1>오늘의 행운 지수</h1>
-    <div class="lucky-numbers">
-      <div v-for="(number, index) in luckyNumbers" :key="index" class="number">
-        {{ number }}
+  <div class="app">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>행운의 숫자</h1>
       </div>
-    </div>
-    <div class="luck-score">
-      <h2>행운 지수: {{ luckScore }}%</h2>
-      <p>{{ getLuckMessage }}</p>
-    </div>
-    <button @click="generateNumbers" class="generate-btn">
-      새로운 행운 지수 생성하기
-    </button>
+      <div class="nav-links">
+        <router-link to="/" class="nav-link">홈</router-link>
+        <router-link to="/love" class="nav-link">연애운</router-link>
+        <router-link to="/study" class="nav-link">학업운</router-link>
+        <router-link to="/work" class="nav-link">직장운</router-link>
+        <router-link to="/health" class="nav-link">건강운</router-link>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <router-view></router-view>
+    </main>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-
-const luckyNumbers = ref([])
-const luckScore = ref(0)
-
-const generateNumbers = () => {
-  const numbers = []
-  while (numbers.length < 3) {
-    const num = Math.floor(Math.random() * 1000) + 1
-    if (!numbers.includes(num)) {
-      numbers.push(num)
-    }
-  }
-  luckyNumbers.value = numbers.sort((a, b) => a - b)
-  // 행운 지수 계산 (세 숫자의 평균을 백분율로 변환)
-  luckScore.value = Math.round((numbers.reduce((a, b) => a + b, 0) / 3000) * 100)
-}
-
-const getLuckMessage = computed(() => {
-  if (luckScore.value >= 80) return '대박! 오늘은 매우 행운의 날입니다! 🌟'
-  if (luckScore.value >= 60) return '좋은 일이 생길 것 같네요! ✨'
-  if (luckScore.value >= 40) return '평범한 하루가 될 것 같습니다. 😊'
-  if (luckScore.value >= 20) return '조금 조심스러운 하루네요. 🍀'
-  return '오늘은 실수하지 않도록 주의하세요! 💫'
-})
-
-// 초기 숫자 생성
-generateNumbers()
+import { RouterView } from 'vue-router'
 </script>
 
-<style scoped>
-.container {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  color: #2c3e50;
-  margin-bottom: 2rem;
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
-.lucky-numbers {
+.app {
+  min-height: 100vh;
   display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
 }
 
-.number {
-  background-color: #42b883;
+.navbar {
+  background-color: #4CAF50;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-brand h1 {
   color: white;
-  padding: 1rem 1.5rem;
-  border-radius: 8px;
   font-size: 1.5rem;
-  font-weight: bold;
-  min-width: 80px;
 }
 
-.luck-score {
-  margin-bottom: 2rem;
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
 }
 
-.luck-score h2 {
-  color: #42b883;
-  margin-bottom: 0.5rem;
-}
-
-.generate-btn {
-  background-color: #42b883;
+.nav-link {
   color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
 }
 
-.generate-btn:hover {
-  background-color: #3aa876;
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.router-link-active {
+  background-color: white;
+  color: #4CAF50;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    margin-top: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .nav-link {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
 }
 </style>
